@@ -2,7 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {
   filterImageFromURL,
-  deleteLocalFiles
+  deleteLocalFiles,
+  getTmpFiles
 } from './util/util';
 
 import validUrl from 'valid-url';
@@ -38,23 +39,32 @@ import validUrl from 'valid-url';
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get("/filteredimage", async (req, res) => {
+  app.get('/filteredimage', async (req, res) => {
     const { image_url } = req.query;
 
     //  validate if the image_url query is filled
-    if (!image_url) {
-      return res.status(400)
-      .send(`url is reqired`);
+    if (!image_url || !validUrl.isUri(image_url)) {
+      return res.status(400).send(`url is required`);
     }
 
-    // validate if url is valid
-    if (!validUrl.isUri(image_url)) {
-      return res.status(400)
-      .send(`url is malformed`);
-    }
+    try {
+      // call filterImageFromURL(image_url) to filter the image
+      const result = await filterImageFromURL(image_url);
+      if (!result) {
+        return res.status(500).send(`smth went wrong`);
+      }
 
-    return res.status(200)
-      .send(image_url);
+      // send the resulting file in the response
+      res.sendFile(result);
+
+      // deletes any files on the server on finish of the response
+      const tmpFiles = await getTmpFiles();
+      await deleteLocalFiles(tmpFiles);
+
+      return res.status(200);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 
