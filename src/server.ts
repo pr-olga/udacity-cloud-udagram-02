@@ -1,6 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import {
+  filterImageFromURL,
+  deleteLocalFiles
+} from './util/util';
 
 (async () => {
 
@@ -33,17 +36,18 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/filteredimage", async ( req, res ) => {
-    const { image_url } = req.query;
+  app.get("/filteredimage", async (req, res) => {
+    const { image_url
+    } = req.query;
 
     return res.status(200)
-    .send(image_url);
-  } );
+      .send(image_url);
+  });
 
 
   // Start the Server
-  app.listen( port, () => {
-      console.log( `server running http://localhost:${ port }` );
-      console.log( `press CTRL+C to stop server` );
-  } );
+  app.listen(port, () => {
+    console.log(`server running http://localhost:${ port }`);
+    console.log(`press CTRL+C to stop server`);
+  });
 })();
