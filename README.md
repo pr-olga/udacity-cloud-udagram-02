@@ -1,5 +1,8 @@
 # Udagram Image Filtering Microservice
 
+## Project submission notes
+- the img link: http://udacity-c2-project-dev.eu-central-1.elasticbeanstalk.com/filteredimage?image_url=https://miro.medium.com/max/300/1*A_Hg7NPIoARg0RmdsVapqg.png
+
 
 ## Deveopler notes
 1. The folder structure (i.e. dependencies) was not modified in order to simplify the check prozess.
