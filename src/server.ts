@@ -2,8 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {
   filterImageFromURL,
-  deleteLocalFiles,
-  getTmpFiles
+  deleteLocalFiles
 } from './util/util';
 
 import validUrl from 'valid-url';
@@ -14,7 +13,7 @@ import validUrl from 'valid-url';
   const app = express();
 
   // Set the network port
-  const port = process.env.PORT || 8082;
+  const port = 8082;
 
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -58,8 +57,10 @@ import validUrl from 'valid-url';
       res.sendFile(result);
 
       // deletes any files on the server on finish of the response
-      const tmpFiles = await getTmpFiles();
-      await deleteLocalFiles(tmpFiles);
+      const filteredpath = await filterImageFromURL(image_url);
+        res.status(200).sendFile(filteredpath , () =>
+        deleteLocalFiles([filteredpath])
+    );
 
       return res.status(200);
     } catch (err) {

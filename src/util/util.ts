@@ -22,26 +22,6 @@ export async function filterImageFromURL(inputURL: string): Promise<string>{
     });
 }
 
-// get all files from tmp
-export async function getTmpFiles(): Promise<string[]> {
-    const tmpFolder = './src/util/tmp/';
-
-    return new Promise((resolve, reject) => {
-        return fs.readdir(tmpFolder, (err, files) => {
-            if(err) {
-                reject(err);
-            }
-
-            let arrFiles: string[] = [];
-            for(let file of files) {
-                arrFiles.push(`${tmpFolder}${file}`);
-            }
-
-            resolve(arrFiles);
-        });
-    });
-}
-
 // deleteLocalFiles
 // helper function to delete files on the local disk
 // useful to cleanup after tasks
