@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {
   filterImageFromURL,
@@ -13,7 +14,7 @@ import validUrl from 'valid-url';
   const app = express();
 
   // Set the network port
-  const port = 8082;
+  const port = process.env.PORT || 8082;
 
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -38,8 +39,8 @@ import validUrl from 'valid-url';
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get('/filteredimage', async (req, res) => {
-    const { image_url } = req.query;
+  app.get('/filteredimage', async (req: Request, res: Response) => {
+    const { image_url }: { image_url: string } = req.query;
 
     //  validate if the image_url query is filled
     if (!image_url || !validUrl.isUri(image_url)) {
